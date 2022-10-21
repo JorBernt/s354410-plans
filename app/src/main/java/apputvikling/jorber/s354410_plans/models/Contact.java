@@ -50,6 +50,7 @@ public class Contact {
 
     public void setName(String name) {
         this.name = trimExcessWhitespace(name);
+        setShortHandName(generateShortHand(this.name));
     }
 
     public void setPhoneNumber(String phoneNumber) {
