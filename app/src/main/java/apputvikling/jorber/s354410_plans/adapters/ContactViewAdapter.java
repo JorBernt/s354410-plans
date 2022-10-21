@@ -27,7 +27,6 @@ public class ContactViewAdapter extends RecyclerView.Adapter<ContactViewAdapter.
         this.iOnClick = iOnClick;
     }
 
-
     @NonNull
     @Override
     public ContactViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
