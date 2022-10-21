@@ -1,9 +1,6 @@
 package apputvikling.jorber.s354410_plans.adapters;
 
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
@@ -17,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 import apputvikling.jorber.s354410_plans.R;
-import apputvikling.jorber.s354410_plans.activity.MainActivity;
 import apputvikling.jorber.s354410_plans.fragments.IOnClick;
 import apputvikling.jorber.s354410_plans.models.Contact;
 
@@ -55,7 +51,8 @@ public class ContactViewAdapter extends RecyclerView.Adapter<ContactViewAdapter.
                     return true;
                 }
                 if(id == R.id.delete) {
-                    iOnClick.deleteContact(contact);
+                    contacts.remove(contact);
+                    iOnClick.deleteContact(contact, position);
                     return true;
                 }
                 return false;
@@ -63,8 +60,6 @@ public class ContactViewAdapter extends RecyclerView.Adapter<ContactViewAdapter.
             settingsMenu.show();
         });
     }
-
-
 
     @Override
     public int getItemCount() {

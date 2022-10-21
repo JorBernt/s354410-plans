@@ -1,17 +1,20 @@
 package apputvikling.jorber.s354410_plans.activity;
 
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-
-import android.os.Bundle;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.Objects;
 
 import apputvikling.jorber.s354410_plans.R;
+import apputvikling.jorber.s354410_plans.Repository;
 import apputvikling.jorber.s354410_plans.db.DatabaseClient;
 import apputvikling.jorber.s354410_plans.fragments.AddContactFragment;
 import apputvikling.jorber.s354410_plans.fragments.ContactViewFragment;
@@ -36,47 +39,42 @@ public class MainActivity extends AppCompatActivity implements IOnClick {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Objects.requireNonNull(getSupportActionBar()).hide();
-        if (savedInstanceState == null) {
-            ContactViewFragment cvf = new ContactViewFragment();
-            AddContactFragment acf = new AddContactFragment();
-            getSupportFragmentManager().beginTransaction()
-                    .setReorderingAllowed(true)
-                    .add(R.id.fragmentContainerView, cvf, Fragments.CONTACT_VIEW.name())
-                    .add(R.id.fragmentContainerView, acf, Fragments.ADD_CONTACT_VIEW.name())
-                    .commit();
-            cvf.setOnClick(this);
-            acf.setOnClick(this);
-        }
         DatabaseClient.getInstance(this);
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
+        openFragment(Fragments.CONTACT_VIEW);
         bottomNav.setOnItemSelectedListener(item -> {
             int id = item.getItemId();
             if (id == R.id.page_1) {
+                openFragment(Fragments.CONTACT_VIEW);
                 return true;
             }
             if (id == R.id.page_2) {
                 openFragment(Fragments.CONTACT_VIEW);
                 return true;
             }
-            if (id == R.id.page_3) {
-                return true;
-            }
-            return false;
+            return id == R.id.page_3;
         });
     }
 
     public void openFragment(Fragments fragment, Bundle bundle) {
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction transaction = fm.beginTransaction();
-        //this is a helper class that replaces the container with the fragment. You can replace or add fragments.
-        Fragment frag = null;
-        if(bundle != null) {
+        Fragment frag;
+        switch (fragment) {
+            case ADD_CONTACT_VIEW:
+                frag = new AddContactFragment();
+                ((AddContactFragment) frag).setOnClick(this);
+                break;
+            case CONTACT_VIEW:
+                frag = new ContactViewFragment();
+                ((ContactViewFragment) frag).setOnClick(this);
+                break;
+            default:
+                return;
+        }
+        if (bundle != null)
             frag.setArguments(bundle);
-        }
-        else {
-            frag = fm.findFragmentByTag(fragment.name());
-        }
-        transaction.replace(R.id.fragmentContainerView, frag);
+        transaction.replace(R.id.fragmentContainerView, frag, fragment.name());
         transaction.addToBackStack(null); //if you add fragments it will be added to the backStack. If you replace the fragment it will add only the last fragment
         transaction.commit(); // commit() performs the action
     }
@@ -99,8 +97,26 @@ public class MainActivity extends AppCompatActivity implements IOnClick {
     }
 
     @Override
-    public void deleteContact(Contact contact) {
+    public void deleteContact(Contact contact, int position) {
+        class DeleteContact extends AsyncTask<Void, Void, Void> {
+            @Override
+            protected Void doInBackground(Void... voids) {
+                Repository.getInstance(getBaseContext()).deleteContact(contact);
+                return null;
+            }
 
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                super.onPostExecute(aVoid);
+                Toast.makeText(getBaseContext(), "Deleted", Toast.LENGTH_LONG).show();
+                ContactViewFragment frag = (ContactViewFragment) getSupportFragmentManager().findFragmentByTag(Fragments.CONTACT_VIEW.name());
+                if (frag == null)
+                    return;
+                frag.updateView(position);
+            }
+        }
+        DeleteContact delete = new DeleteContact();
+        delete.execute();
     }
 
     @Override

@@ -7,6 +7,8 @@ public interface IOnClick {
 
     void openFragmentFromFragment(MainActivity.Fragments fragment);
     void openEditExistingContact(Contact contact);
-    void deleteContact(Contact contact);
+
+    void deleteContact(Contact contact, int position);
+
     void goBack();
 }

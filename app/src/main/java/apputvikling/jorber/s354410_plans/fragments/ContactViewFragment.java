@@ -13,18 +13,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import apputvikling.jorber.s354410_plans.R;
 import apputvikling.jorber.s354410_plans.Repository;
 import apputvikling.jorber.s354410_plans.activity.MainActivity;
-import apputvikling.jorber.s354410_plans.models.Contact;
 import apputvikling.jorber.s354410_plans.adapters.ContactViewAdapter;
-import apputvikling.jorber.s354410_plans.R;
+import apputvikling.jorber.s354410_plans.models.Contact;
 
 public class ContactViewFragment extends Fragment {
 
-    IOnClick iOnClick;
+    private IOnClick iOnClick;
+    private ContactViewAdapter adapter;
 
     public ContactViewFragment() {
         super(R.layout.fragment_viewcontacts);
@@ -50,19 +50,22 @@ public class ContactViewFragment extends Fragment {
 
             @Override
             protected List<Contact> doInBackground(Void... voids) {
-                return Repository.getInstance().getAllContacts(getContext());
+                return Repository.getInstance(getContext()).getAllContacts();
             }
 
             @Override
             protected void onPostExecute(List<Contact> contacts) {
                 super.onPostExecute(contacts);
-                rv.setAdapter(new ContactViewAdapter(contacts, iOnClick));
+                adapter = new ContactViewAdapter(contacts, iOnClick);
+                rv.setAdapter(adapter);
             }
         }
         GetContacts save = new GetContacts();
         save.execute();
+    }
 
-
+    public void updateView(int position) {
+        adapter.notifyItemRemoved(position);
     }
 
 

@@ -5,4 +5,7 @@
     <string name="text_label_3">Appointments</string>
     <string name="edit">Edit</string>
     <string name="delete">Delete</string>
+    <string name="save">Save</string>
+    <string name="add">Add</string>
+    <string name="contactTitle">New Contact</string>
 </resources>

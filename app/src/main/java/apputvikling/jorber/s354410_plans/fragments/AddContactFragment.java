@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -12,8 +13,6 @@ import androidx.fragment.app.Fragment;
 
 import apputvikling.jorber.s354410_plans.R;
 import apputvikling.jorber.s354410_plans.Repository;
-import apputvikling.jorber.s354410_plans.activity.MainActivity;
-import apputvikling.jorber.s354410_plans.db.DatabaseClient;
 import apputvikling.jorber.s354410_plans.models.Contact;
 
 public class AddContactFragment extends Fragment {
@@ -30,17 +29,34 @@ public class AddContactFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         Button addContactBtn = view.findViewById(R.id.addContactBtn);
-        if(savedInstanceState != null) {
-            String sName = savedInstanceState.getString("name");
-            String sPhone = savedInstanceState.getString("phone");
-            long _ID = savedInstanceState.getLong("_ID");
+        TextView contactTitleText = view.findViewById(R.id.contactTitleText);
+        if (getArguments() != null) {
+            String sName = getArguments().getString("name");
+            String sPhone = getArguments().getString("phone");
+            long _ID = getArguments().getLong("_ID");
+
             TextView name = view.findViewById(R.id.nameInput);
             TextView phone = view.findViewById(R.id.phoneInput);
             name.setText(sName);
             phone.setText(sPhone);
-            addContactBtn.setOnClickListener(v -> updateContact(v, new Contact(sName, sPhone, _ID)));
+
+            Contact contact = new Contact(sName, sPhone, _ID);
+
+            addContactBtn.setOnClickListener(v -> updateContact(v, contact));
+            addContactBtn.setText(R.string.save);
+
+            LinearLayout layout = view.findViewById(R.id.contactViewButtonLayout);
+            Button deleteButton = new Button(layout.getContext());
+            deleteButton.setText(R.string.delete);
+            deleteButton.setBackground(getActivity().getDrawable(R.drawable.delete_button));
+            layout.addView(deleteButton, 0);
+            deleteButton.setOnClickListener(v -> deleteContact(v, contact));
+
+            contactTitleText.setText(sName);
+        } else {
+            contactTitleText.setText(R.string.contactTitle);
+            addContactBtn.setOnClickListener(v -> saveContact(view));
         }
-        addContactBtn.setOnClickListener(this::saveContact);
     }
 
     private void saveContact(View view) {
@@ -50,7 +66,7 @@ public class AddContactFragment extends Fragment {
         class SaveContact extends AsyncTask<Void, Void, Void> {
             @Override
             protected Void doInBackground(Void... voids) {
-                DatabaseClient.getInstance(getContext()).getAppDatabase().contactDao().insert(contact);
+                Repository.getInstance(getContext()).saveContact(contact);
                 return null;
             }
 
@@ -58,8 +74,6 @@ public class AddContactFragment extends Fragment {
             protected void onPostExecute(Void aVoid) {
                 super.onPostExecute(aVoid);
                 Toast.makeText(getContext(), "Saved", Toast.LENGTH_LONG).show();
-                name.setText("");
-                phone.setText("");
                 iOnClick.goBack();
                 return;
             }
@@ -69,12 +83,10 @@ public class AddContactFragment extends Fragment {
     }
 
     private void updateContact(View view, Contact contact) {
-        TextView name = view.findViewById(R.id.nameInput);
-        TextView phone = view.findViewById(R.id.phoneInput);
-        class SaveContact extends AsyncTask<Void, Void, Void> {
+        class UpdateContact extends AsyncTask<Void, Void, Void> {
             @Override
             protected Void doInBackground(Void... voids) {
-                DatabaseClient.getInstance(getContext()).getAppDatabase().contactDao().update(contact);
+                Repository.getInstance(getContext()).updateContact(contact);
                 return null;
             }
 
@@ -82,13 +94,31 @@ public class AddContactFragment extends Fragment {
             protected void onPostExecute(Void aVoid) {
                 super.onPostExecute(aVoid);
                 Toast.makeText(getContext(), "Saved", Toast.LENGTH_LONG).show();
-                name.setText("");
-                phone.setText("");
                 iOnClick.goBack();
                 return;
             }
         }
-        SaveContact save = new SaveContact();
-        save.execute();
+        UpdateContact update = new UpdateContact();
+        update.execute();
+    }
+
+    private void deleteContact(View view, Contact contact) {
+        class DeleteContact extends AsyncTask<Void, Void, Void> {
+            @Override
+            protected Void doInBackground(Void... voids) {
+                Repository.getInstance(getContext()).deleteContact(contact);
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                super.onPostExecute(aVoid);
+                Toast.makeText(getContext(), "Deleted", Toast.LENGTH_LONG).show();
+                iOnClick.goBack();
+                return;
+            }
+        }
+        DeleteContact delete = new DeleteContact();
+        delete.execute();
     }
 }
