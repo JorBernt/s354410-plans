@@ -42,7 +42,7 @@ public class AddContactFragment extends Fragment {
 
             Contact contact = new Contact(sName, sPhone, _ID);
 
-            addContactBtn.setOnClickListener(v -> updateContact(v, contact));
+            addContactBtn.setOnClickListener(v -> updateContact(view, contact));
             addContactBtn.setText(R.string.save);
 
             LinearLayout layout = view.findViewById(R.id.contactViewButtonLayout);
@@ -50,7 +50,7 @@ public class AddContactFragment extends Fragment {
             deleteButton.setText(R.string.delete);
             deleteButton.setBackground(getActivity().getDrawable(R.drawable.delete_button));
             layout.addView(deleteButton, 0);
-            deleteButton.setOnClickListener(v -> deleteContact(v, contact));
+            deleteButton.setOnClickListener(v -> deleteContact(contact));
 
             contactTitleText.setText(sName);
         } else {
@@ -83,6 +83,10 @@ public class AddContactFragment extends Fragment {
     }
 
     private void updateContact(View view, Contact contact) {
+        TextView name = view.findViewById(R.id.nameInput);
+        TextView phone = view.findViewById(R.id.phoneInput);
+        contact.setName(name.getText().toString());
+        contact.setPhoneNumber(phone.getText().toString());
         class UpdateContact extends AsyncTask<Void, Void, Void> {
             @Override
             protected Void doInBackground(Void... voids) {
@@ -102,7 +106,7 @@ public class AddContactFragment extends Fragment {
         update.execute();
     }
 
-    private void deleteContact(View view, Contact contact) {
+    private void deleteContact(Contact contact) {
         class DeleteContact extends AsyncTask<Void, Void, Void> {
             @Override
             protected Void doInBackground(Void... voids) {
