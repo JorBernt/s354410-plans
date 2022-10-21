@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">s354410-plans</string>
+    <string name="text_label_1">Home</string>
+    <string name="text_label_2">Contacts</string>
+    <string name="text_label_3">Appointments</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
+</resources>

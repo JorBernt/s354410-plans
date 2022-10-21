@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_marginHorizontal="5dp"
+    android:layout_marginVertical="5dp"
+    card_view:cardBackgroundColor="@android:color/transparent"
+    android:layout_height="wrap_content">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+
+        android:layout_height="80dp">
+
+        <TextView
+            android:id="@+id/contactIconView"
+            android:layout_width="59dp"
+            android:layout_height="59dp"
+            android:layout_marginStart="16dp"
+            android:background="@drawable/contact_icon"
+            android:paddingTop="10dp"
+            android:text="JB"
+            android:textAlignment="center"
+            android:textColor="@color/teal_700"
+            android:textSize="26sp"
+            card_view:layout_constraintBottom_toBottomOf="parent"
+            card_view:layout_constraintStart_toStartOf="parent"
+            card_view:layout_constraintTop_toTopOf="parent"
+            card_view:layout_constraintVertical_bias="0.523" />
+
+        <LinearLayout
+            android:id="@+id/linearLayout2"
+            android:layout_width="256dp"
+            android:layout_height="64dp"
+            android:orientation="vertical"
+            card_view:layout_constraintBottom_toBottomOf="parent"
+            card_view:layout_constraintEnd_toEndOf="parent"
+            card_view:layout_constraintHorizontal_bias="0.568"
+            card_view:layout_constraintStart_toStartOf="parent"
+            card_view:layout_constraintTop_toTopOf="parent"
+            card_view:layout_constraintVertical_bias="0.375">
+
+            <TextView
+                android:id="@+id/nameView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawableStart="@drawable/person_icon"
+                android:drawablePadding="5dp"
+                android:text="TextView"
+                android:textColor="@color/white"
+                android:textSize="24sp" />
+
+            <TextView
+                android:id="@+id/phoneNumberView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawableStart="@drawable/phone_icon"
+                android:drawablePadding="5dp"
+                android:text="TextView"
+                android:textColor="@color/white"
+                android:textSize="24sp" />
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/contactSettingsBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            card_view:layout_constraintBottom_toBottomOf="parent"
+            card_view:layout_constraintEnd_toEndOf="parent"
+            card_view:layout_constraintHorizontal_bias="0.533"
+            card_view:layout_constraintStart_toEndOf="@+id/linearLayout2"
+            card_view:layout_constraintTop_toTopOf="parent"
+            android:background="@null"
+            card_view:layout_constraintVertical_bias="0.432"
+            card_view:srcCompat="@drawable/settings_icon" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>
