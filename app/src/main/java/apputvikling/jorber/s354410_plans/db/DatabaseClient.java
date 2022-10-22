@@ -5,13 +5,13 @@ import android.content.Context;
 import androidx.room.Room;
 
 public class DatabaseClient {
-    private Context mCtx;
+    private final Context mCtx;
     private static DatabaseClient mInstance;
-    private AppDatabase mAppDatabase;
+    private final AppDatabase mAppDatabase;
 
     private DatabaseClient(Context ctx) {
         this.mCtx = ctx;
-        this.mAppDatabase = Room.databaseBuilder(mCtx, AppDatabase.class, "Contact").build();
+        this.mAppDatabase = Room.databaseBuilder(mCtx, AppDatabase.class, "Contact").fallbackToDestructiveMigration().build();
     }
 
     public static synchronized DatabaseClient getInstance(Context ctx) {

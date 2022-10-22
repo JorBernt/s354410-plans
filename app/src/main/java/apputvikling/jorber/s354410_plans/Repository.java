@@ -5,6 +5,7 @@ import android.content.Context;
 import java.util.List;
 
 import apputvikling.jorber.s354410_plans.db.DatabaseClient;
+import apputvikling.jorber.s354410_plans.models.Appointment;
 import apputvikling.jorber.s354410_plans.models.Contact;
 
 public class Repository {
@@ -38,6 +39,24 @@ public class Repository {
                 .contactDao()
                 .getAll();
         return contacts;
+    }
+
+    public void saveAppointment(Appointment appointment) {
+        DatabaseClient.getInstance(mCtx).getAppDatabase().appointmentDao().insert(appointment);
+    }
+
+    public void deleteAppointment(Appointment appointment) {
+        DatabaseClient.getInstance(mCtx).getAppDatabase().appointmentDao().delete(appointment);
+    }
+
+    public void updateAppointment(Appointment appointment) {
+        DatabaseClient.getInstance(mCtx).getAppDatabase().appointmentDao().update(appointment);
+    }
+
+    public List<Appointment> getAllAppointments() {
+        return DatabaseClient.getInstance(mCtx).getAppDatabase()
+                .appointmentDao()
+                .getAll();
     }
 
 }

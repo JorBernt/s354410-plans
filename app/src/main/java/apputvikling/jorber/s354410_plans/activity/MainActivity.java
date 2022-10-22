@@ -17,22 +17,13 @@ import apputvikling.jorber.s354410_plans.R;
 import apputvikling.jorber.s354410_plans.Repository;
 import apputvikling.jorber.s354410_plans.db.DatabaseClient;
 import apputvikling.jorber.s354410_plans.fragments.AddContactFragment;
+import apputvikling.jorber.s354410_plans.fragments.AppointmentViewFragment;
 import apputvikling.jorber.s354410_plans.fragments.ContactViewFragment;
 import apputvikling.jorber.s354410_plans.fragments.IOnClick;
+import apputvikling.jorber.s354410_plans.models.Appointment;
 import apputvikling.jorber.s354410_plans.models.Contact;
 
 public class MainActivity extends AppCompatActivity implements IOnClick {
-
-    public enum Fragments {
-        ADD_CONTACT_VIEW(AddContactFragment.class),
-        CONTACT_VIEW(ContactViewFragment.class);
-
-        Class<? extends Fragment> klass;
-
-        Fragments(Class<? extends Fragment> klass) {
-            this.klass = klass;
-        }
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,11 +39,12 @@ public class MainActivity extends AppCompatActivity implements IOnClick {
                 openFragment(Fragments.CONTACT_VIEW);
                 return true;
             }
-            if (id == R.id.page_2) {
+            if (id == R.id.contacts_page) {
                 openFragment(Fragments.CONTACT_VIEW);
                 return true;
             }
-            return id == R.id.page_3;
+            openFragment(Fragments.APPOINTMENT_VIEW);
+            return true;
         });
     }
 
@@ -69,6 +61,10 @@ public class MainActivity extends AppCompatActivity implements IOnClick {
                 frag = new ContactViewFragment();
                 ((ContactViewFragment) frag).setOnClick(this);
                 break;
+            case APPOINTMENT_VIEW:
+                frag = new AppointmentViewFragment();
+                ((AppointmentViewFragment) frag).setOnClick(this);
+                break;
             default:
                 return;
         }
@@ -78,6 +74,12 @@ public class MainActivity extends AppCompatActivity implements IOnClick {
         transaction.addToBackStack(null); //if you add fragments it will be added to the backStack. If you replace the fragment it will add only the last fragment
         transaction.commit(); // commit() performs the action
     }
+
+    @Override
+    public void openEditExistingAppointment(Appointment appointment) {
+
+    }
+
     public void openFragment(Fragments fragment) {
         openFragment(fragment, null);
     }
@@ -122,6 +124,23 @@ public class MainActivity extends AppCompatActivity implements IOnClick {
     @Override
     public void goBack() {
         getSupportFragmentManager().popBackStack();
+    }
+
+    @Override
+    public void deleteAppointment(Appointment appointment, int position) {
+
+    }
+
+    public enum Fragments {
+        ADD_CONTACT_VIEW(AddContactFragment.class),
+        CONTACT_VIEW(ContactViewFragment.class),
+        APPOINTMENT_VIEW(AppointmentViewFragment.class);
+
+        Class<? extends Fragment> klass;
+
+        Fragments(Class<? extends Fragment> klass) {
+            this.klass = klass;
+        }
     }
 
 

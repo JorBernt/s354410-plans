@@ -8,7 +8,7 @@
     tools:context=".activity.MainActivity">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/contactView"
+        android:id="@+id/appointmentView"
         android:layout_width="fill_parent"
         android:layout_height="570dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -23,8 +23,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
         android:layout_margin="16dp"
-        android:contentDescription="Add Contact"
-        android:src="@drawable/add_contact_icon"
+        android:contentDescription="Add Appointment"
+        android:src="@drawable/add_appointment_icon"
         app:fabSize="normal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -37,10 +37,10 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/contacts"
+        android:text="@string/appointments"
         android:textColor="@color/white"
         android:textSize="34sp"
-        app:layout_constraintBottom_toTopOf="@+id/contactView"
+        app:layout_constraintBottom_toTopOf="@+id/appointmentView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"

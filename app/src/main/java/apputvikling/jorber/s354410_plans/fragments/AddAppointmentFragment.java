@@ -15,10 +15,10 @@ import apputvikling.jorber.s354410_plans.R;
 import apputvikling.jorber.s354410_plans.Repository;
 import apputvikling.jorber.s354410_plans.models.Contact;
 
-public class AddContactFragment extends Fragment {
+public class AddAppointmentFragment extends Fragment {
     IOnClick iOnClick;
 
-    public AddContactFragment() {
+    public AddAppointmentFragment() {
         super(R.layout.fragment_addcontact);
     }
 

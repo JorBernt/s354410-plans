@@ -18,16 +18,16 @@ import java.util.List;
 import apputvikling.jorber.s354410_plans.R;
 import apputvikling.jorber.s354410_plans.Repository;
 import apputvikling.jorber.s354410_plans.activity.MainActivity;
-import apputvikling.jorber.s354410_plans.adapters.ContactViewAdapter;
-import apputvikling.jorber.s354410_plans.models.Contact;
+import apputvikling.jorber.s354410_plans.adapters.AppointmentViewAdapter;
+import apputvikling.jorber.s354410_plans.models.Appointment;
 
-public class ContactViewFragment extends Fragment {
+public class AppointmentViewFragment extends Fragment {
 
     private IOnClick iOnClick;
-    private ContactViewAdapter adapter;
+    private AppointmentViewAdapter adapter;
 
-    public ContactViewFragment() {
-        super(R.layout.fragment_viewcontacts);
+    public AppointmentViewFragment() {
+        super(R.layout.fragment_viewappointments);
     }
 
     public void setOnClick(IOnClick iOnClick) {
@@ -37,7 +37,7 @@ public class ContactViewFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        RecyclerView rv = view.findViewById(R.id.contactView);
+        RecyclerView rv = view.findViewById(R.id.appointmentView);
         LinearLayoutManager lm = new LinearLayoutManager(getContext());
         rv.setLayoutManager(lm);
         DividerItemDecoration did = new DividerItemDecoration(rv.getContext(), lm.getOrientation());
@@ -46,27 +46,21 @@ public class ContactViewFragment extends Fragment {
         FloatingActionButton fab = view.findViewById(R.id.fab);
         fab.setOnClickListener(view1 -> iOnClick.openFragmentFromFragment(MainActivity.Fragments.ADD_CONTACT_VIEW));
 
-        class GetContacts extends AsyncTask<Void, Void, List<Contact>> {
+        class GetAppointments extends AsyncTask<Void, Void, List<Appointment>> {
 
             @Override
-            protected List<Contact> doInBackground(Void... voids) {
-                return Repository.getInstance(getContext()).getAllContacts();
+            protected List<Appointment> doInBackground(Void... voids) {
+                return Repository.getInstance(getContext()).getAllAppointments();
             }
 
             @Override
-            protected void onPostExecute(List<Contact> contacts) {
-                super.onPostExecute(contacts);
-                adapter = new ContactViewAdapter(contacts, iOnClick);
+            protected void onPostExecute(List<Appointment> appointments) {
+                super.onPostExecute(appointments);
+                adapter = new AppointmentViewAdapter(appointments, iOnClick);
                 rv.setAdapter(adapter);
             }
         }
-        GetContacts save = new GetContacts();
-        save.execute();
+        GetAppointments get = new GetAppointments();
+        get.execute();
     }
-
-    public void updateView(int position) {
-        adapter.notifyItemRemoved(position);
-    }
-
-
 }
