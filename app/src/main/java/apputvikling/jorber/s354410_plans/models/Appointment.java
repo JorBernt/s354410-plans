@@ -83,19 +83,19 @@ public class Appointment {
 
     public String getDay() {
         Calendar calendar = Calendar.getInstance();
-        calendar.setTime(new Date(date));
+        //calendar.setTime(new Date(date));
         return String.valueOf(calendar.get(Calendar.DAY_OF_MONTH));
     }
 
     public String getMonth() {
         Calendar calendar = Calendar.getInstance();
-        calendar.setTime(new Date(date));
+        //calendar.setTime(new Date(date));
         return new SimpleDateFormat("MMM", Locale.ENGLISH).format(calendar.getTime());
     }
 
     public String getYear() {
         Calendar calendar = Calendar.getInstance();
-        calendar.setTime(new Date(date));
+        //calendar.setTime(new Date(date));
         return String.valueOf(calendar.get(Calendar.YEAR));
     }
 

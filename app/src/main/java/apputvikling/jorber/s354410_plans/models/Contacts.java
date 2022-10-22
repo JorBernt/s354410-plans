@@ -14,6 +14,10 @@ public class Contacts {
         return contacts.stream().map(Contact::get_ID).map(String::valueOf).collect(Collectors.joining(":"));
     }
 
+    public String getNames() {
+        return contacts.stream().map(Contact::getName).collect(Collectors.joining(", "));
+    }
+
     public List<Contact> getContacts() {
         return contacts;
     }

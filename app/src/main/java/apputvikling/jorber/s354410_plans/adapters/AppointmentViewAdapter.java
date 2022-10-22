@@ -30,7 +30,7 @@ public class AppointmentViewAdapter extends RecyclerView.Adapter<AppointmentView
     @NonNull
     @Override
     public AppointmentViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.contact_cardview, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.appointment_cardview, parent, false);
         return new AppointmentViewHolder(view);
     }
 
@@ -38,7 +38,7 @@ public class AppointmentViewAdapter extends RecyclerView.Adapter<AppointmentView
     public void onBindViewHolder(@NonNull AppointmentViewHolder holder, int position) {
         Appointment appointment = appointments.get(position);
         holder.message.setText(appointment.getMessage());
-        holder.attendees.setText(appointment.getContactIDs());
+        holder.attendees.setText(appointment.getContacts().getNames());
         holder.date.day.setText(appointment.getDay());
         holder.date.month.setText(appointment.getMonth());
         holder.date.year.setText(appointment.getYear());
