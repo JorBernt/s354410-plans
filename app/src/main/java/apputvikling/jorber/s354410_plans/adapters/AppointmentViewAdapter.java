@@ -37,8 +37,10 @@ public class AppointmentViewAdapter extends RecyclerView.Adapter<AppointmentView
     @Override
     public void onBindViewHolder(@NonNull AppointmentViewHolder holder, int position) {
         Appointment appointment = appointments.get(position);
-        holder.message.setText(appointment.getMessage());
-        holder.attendees.setText(appointment.getContacts().getNames());
+        holder.title.setText(appointment.getTitle());
+        holder.description.setText(appointment.getMessage());
+        holder.attendees.setText(String.format("Attendees:\n%s", appointment.getContacts().getNames()));
+        holder.date.time.setText(appointment.getTime());
         holder.date.day.setText(appointment.getDay());
         holder.date.month.setText(appointment.getMonth());
         holder.date.year.setText(appointment.getYear());
@@ -73,11 +75,13 @@ public class AppointmentViewAdapter extends RecyclerView.Adapter<AppointmentView
     }
 
     static class DateView {
+        TextView time;
         TextView day;
         TextView month;
         TextView year;
 
-        public DateView(TextView day, TextView month, TextView year) {
+        public DateView(TextView time, TextView day, TextView month, TextView year) {
+            this.time = time;
             this.day = day;
             this.month = month;
             this.year = year;
@@ -86,7 +90,8 @@ public class AppointmentViewAdapter extends RecyclerView.Adapter<AppointmentView
 
     public static class AppointmentViewHolder extends RecyclerView.ViewHolder {
         CardView cv;
-        TextView message;
+        TextView title;
+        TextView description;
         TextView attendees;
         DateView date;
 
@@ -94,11 +99,12 @@ public class AppointmentViewAdapter extends RecyclerView.Adapter<AppointmentView
 
         public AppointmentViewHolder(@NonNull View itemView) {
             super(itemView);
-            cv = itemView.findViewById(R.id.appointmentView);
-            message = itemView.findViewById(R.id.eventMessage);
-            attendees = itemView.findViewById(R.id.attendees);
+            cv = itemView.findViewById(R.id.appointment_cardview);
+            title = itemView.findViewById(R.id.appointment_title_view);
+            description = itemView.findViewById(R.id.eventDescription);
+            attendees = itemView.findViewById(R.id.attendees_textview);
             appointmentSettingsBtn = itemView.findViewById(R.id.appointmentSettingsBtn);
-            date = new DateView(itemView.findViewById(R.id.dateDay), itemView.findViewById(R.id.dateMonth), itemView.findViewById(R.id.dateYear));
+            date = new DateView(itemView.findViewById(R.id.dateTime), itemView.findViewById(R.id.dateDay), itemView.findViewById(R.id.dateMonth), itemView.findViewById(R.id.dateYear));
         }
     }
 }

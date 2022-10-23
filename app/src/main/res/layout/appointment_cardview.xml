@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="5dp"
+    android:id="@+id/appointment_cardview"
     android:layout_marginVertical="5dp"
     card_view:cardBackgroundColor="@android:color/transparent">
 
@@ -35,14 +36,24 @@
             card_view:layout_constraintTop_toTopOf="parent">
 
             <TextView
-                android:id="@+id/eventMessage"
+                android:id="@+id/appointment_title_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TextView"
+                android:layout_marginTop="5sp"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/eventDescription"
                 android:layout_width="match_parent"
-                android:layout_height="85dp"
+                android:layout_height="50dp"
                 android:text="TextView"
                 android:textColor="@color/white" />
 
             <TextView
-                android:id="@+id/attendees"
+                android:id="@+id/attendees_textview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="TextView"
@@ -53,11 +64,19 @@
         <LinearLayout
             android:id="@+id/linearLayout4"
             android:layout_width="84dp"
-            android:layout_height="84dp"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
             card_view:layout_constraintBottom_toBottomOf="parent"
             card_view:layout_constraintStart_toStartOf="parent"
             card_view:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/dateTime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="10:45"
+                android:textAlignment="center"
+                android:textColor="@color/white" />
 
             <TextView
                 android:id="@+id/dateDay"

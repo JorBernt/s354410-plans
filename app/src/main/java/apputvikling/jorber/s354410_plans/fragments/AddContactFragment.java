@@ -28,7 +28,7 @@ public class AddContactFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
-        Button addContactBtn = view.findViewById(R.id.addContactBtn);
+        Button addContactBtn = view.findViewById(R.id.addBtn);
         TextView contactTitleText = view.findViewById(R.id.contactTitleText);
         if (getArguments() != null) {
             String sName = getArguments().getString("name");

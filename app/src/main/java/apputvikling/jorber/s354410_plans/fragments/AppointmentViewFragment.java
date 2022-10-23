@@ -13,6 +13,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
 
 import apputvikling.jorber.s354410_plans.R;
@@ -44,7 +47,7 @@ public class AppointmentViewFragment extends Fragment {
         did.setDrawable(AppCompatResources.getDrawable(getActivity(), R.drawable.divider));
         rv.addItemDecoration(did);
         FloatingActionButton fab = view.findViewById(R.id.fab);
-        fab.setOnClickListener(view1 -> iOnClick.openFragmentFromFragment(MainActivity.Fragments.ADD_CONTACT_VIEW));
+        fab.setOnClickListener(view1 -> iOnClick.openFragmentFromFragment(MainActivity.Fragments.ADD_APPOINTMENT_VIEW));
 
         class GetAppointments extends AsyncTask<Void, Void, List<Appointment>> {
 
@@ -56,11 +59,16 @@ public class AppointmentViewFragment extends Fragment {
             @Override
             protected void onPostExecute(List<Appointment> appointments) {
                 super.onPostExecute(appointments);
+                appointments.sort(Comparator.comparing(Appointment::getLocalDate));
                 adapter = new AppointmentViewAdapter(appointments, iOnClick);
                 rv.setAdapter(adapter);
             }
         }
         GetAppointments get = new GetAppointments();
         get.execute();
+    }
+
+    public void updateView(int position) {
+        adapter.notifyItemRemoved(position);
     }
 }

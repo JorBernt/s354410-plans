@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -16,6 +17,7 @@ import java.util.Objects;
 import apputvikling.jorber.s354410_plans.R;
 import apputvikling.jorber.s354410_plans.Repository;
 import apputvikling.jorber.s354410_plans.db.DatabaseClient;
+import apputvikling.jorber.s354410_plans.fragments.AddAppointmentFragment;
 import apputvikling.jorber.s354410_plans.fragments.AddContactFragment;
 import apputvikling.jorber.s354410_plans.fragments.AppointmentViewFragment;
 import apputvikling.jorber.s354410_plans.fragments.ContactViewFragment;
@@ -65,6 +67,10 @@ public class MainActivity extends AppCompatActivity implements IOnClick {
                 frag = new AppointmentViewFragment();
                 ((AppointmentViewFragment) frag).setOnClick(this);
                 break;
+            case ADD_APPOINTMENT_VIEW:
+                frag = new AddAppointmentFragment();
+                ((AddAppointmentFragment) frag).setOnClick(this);
+                break;
             default:
                 return;
         }
@@ -73,11 +79,6 @@ public class MainActivity extends AppCompatActivity implements IOnClick {
         transaction.replace(R.id.fragmentContainerView, frag, fragment.name());
         transaction.addToBackStack(null); //if you add fragments it will be added to the backStack. If you replace the fragment it will add only the last fragment
         transaction.commit(); // commit() performs the action
-    }
-
-    @Override
-    public void openEditExistingAppointment(Appointment appointment) {
-
     }
 
     public void openFragment(Fragments fragment) {
@@ -127,15 +128,50 @@ public class MainActivity extends AppCompatActivity implements IOnClick {
     }
 
     @Override
-    public void deleteAppointment(Appointment appointment, int position) {
+    public void openEditExistingAppointment(Appointment appointment) {
+        Bundle bundle = new Bundle();
+        bundle.putString("title", appointment.getTitle());
+        bundle.putString("description", appointment.getMessage());
+        bundle.putString("attendees", appointment.getContactIDs());
+        bundle.putString("time", appointment.getTime());
+        bundle.putString("date", appointment.getDate());
+        bundle.putLong("_ID", appointment.get_ID());
+        openFragment(Fragments.ADD_APPOINTMENT_VIEW, bundle);
+    }
 
+    @Override
+    public void deleteAppointment(Appointment appointment, int position) {
+        class DeleteAppointment extends AsyncTask<Void, Void, Void> {
+
+            @Override
+            protected Void doInBackground(Void... voids) {
+                Repository.getInstance(getBaseContext()).deleteAppointment(appointment);
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                super.onPostExecute(aVoid);
+                AppointmentViewFragment frag = (AppointmentViewFragment) getSupportFragmentManager().findFragmentByTag(Fragments.APPOINTMENT_VIEW.name());
+                if(frag == null)
+                    return;
+                frag.updateView(position);
+            }
+        }
+        DeleteAppointment delete = new DeleteAppointment();
+        delete.execute();
+    }
+
+    @Override
+    public void setDate(DialogFragment datePicker) {
+        datePicker.show(getSupportFragmentManager(), "datePicker");
     }
 
     public enum Fragments {
         ADD_CONTACT_VIEW(AddContactFragment.class),
         CONTACT_VIEW(ContactViewFragment.class),
-        APPOINTMENT_VIEW(AppointmentViewFragment.class);
-
+        APPOINTMENT_VIEW(AppointmentViewFragment.class),
+        ADD_APPOINTMENT_VIEW(AddAppointmentFragment.class);
         Class<? extends Fragment> klass;
 
         Fragments(Class<? extends Fragment> klass) {

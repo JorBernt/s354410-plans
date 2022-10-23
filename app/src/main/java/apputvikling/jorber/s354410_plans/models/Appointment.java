@@ -5,6 +5,9 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -17,12 +20,15 @@ public class Appointment {
     private long _ID;
     @ColumnInfo(name = "date")
     private String date;
+    @ColumnInfo(name = "title")
+    private String title;
     @ColumnInfo(name = "message")
     private String message;
     @ColumnInfo(name = "contacts")
     private Contacts contacts;
 
-    public Appointment(Date date, String message, List<Contact> contacts) {
+    public Appointment(LocalDateTime date, String title, String message, List<Contact> contacts) {
+        this.title = title;
         this.message = message;
         this.contacts = new Contacts(contacts);
         handleDate(date);
@@ -31,10 +37,12 @@ public class Appointment {
     public Appointment() {
     }
 
-    private void handleDate(Date date) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
-        this.date = calendar.toString();
+    private void handleDate(LocalDateTime date) {
+        this.date = getFormatter().format(date);
+    }
+
+    private static DateTimeFormatter getFormatter() {
+        return DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm", Locale.ENGLISH);
     }
 
     public long get_ID() {
@@ -49,7 +57,7 @@ public class Appointment {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDateTime date) {
         handleDate(date);
     }
 
@@ -77,26 +85,39 @@ public class Appointment {
         this.contacts = contacts;
     }
 
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
     public String getContactIDs() {
         return contacts.getContactIDs();
     }
 
     public String getDay() {
-        Calendar calendar = Calendar.getInstance();
-        //calendar.setTime(new Date(date));
-        return String.valueOf(calendar.get(Calendar.DAY_OF_MONTH));
+        LocalDateTime date = LocalDateTime.parse(getDate(), getFormatter());
+        return String.valueOf(date.getDayOfMonth());
     }
 
     public String getMonth() {
-        Calendar calendar = Calendar.getInstance();
-        //calendar.setTime(new Date(date));
-        return new SimpleDateFormat("MMM", Locale.ENGLISH).format(calendar.getTime());
+        LocalDateTime date = LocalDateTime.parse(getDate(), getFormatter());
+        return date.getMonth().toString();
     }
 
     public String getYear() {
-        Calendar calendar = Calendar.getInstance();
-        //calendar.setTime(new Date(date));
-        return String.valueOf(calendar.get(Calendar.YEAR));
+        LocalDateTime date = LocalDateTime.parse(getDate(), getFormatter());
+        return String.valueOf(date.getYear());
     }
 
+    public String getTime() {
+        LocalDateTime date = LocalDateTime.parse(getDate(), getFormatter());
+        return String.format(Locale.ENGLISH, "%02d:%02d", date.getHour(), date.getMinute());
+    }
+
+    public LocalDateTime getLocalDate() {
+        return LocalDateTime.parse(getDate(), getFormatter());
+    }
 }

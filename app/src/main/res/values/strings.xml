@@ -10,4 +10,10 @@
     <string name="contactTitle">New Contact</string>
     <string name="contacts">Contacts</string>
     <string name="appointments">Appointments</string>
+    <string name="dateFormatHint">dd-MM-yyyy</string>
+    <string name="description">Description</string>
+    <string name="tittle">Title</string>
+    <string name="timeFormatHint">HH:MM</string>
+    <string name="newAppointment">New Appointment</string>
+    <string name="add_attendees">Add attendees</string>
 </resources>

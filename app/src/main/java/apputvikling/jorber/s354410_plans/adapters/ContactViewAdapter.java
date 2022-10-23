@@ -79,7 +79,7 @@ public class ContactViewAdapter extends RecyclerView.Adapter<ContactViewAdapter.
 
         public ContactViewHolder(@NonNull View itemView) {
             super(itemView);
-            cv = itemView.findViewById(R.id.appointmentView);
+            cv = itemView.findViewById(R.id.contact_cardview);
             name = itemView.findViewById(R.id.nameView);
             phoneNumber = itemView.findViewById(R.id.phoneNumberView);
             profileIcon = itemView.findViewById(R.id.contactIconView);
