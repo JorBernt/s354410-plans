@@ -21,6 +21,7 @@ import apputvikling.jorber.s354410_plans.fragments.AddAppointmentFragment;
 import apputvikling.jorber.s354410_plans.fragments.AddContactFragment;
 import apputvikling.jorber.s354410_plans.fragments.AppointmentViewFragment;
 import apputvikling.jorber.s354410_plans.fragments.ContactViewFragment;
+import apputvikling.jorber.s354410_plans.fragments.HomePageFragment;
 import apputvikling.jorber.s354410_plans.fragments.IOnClick;
 import apputvikling.jorber.s354410_plans.models.Appointment;
 import apputvikling.jorber.s354410_plans.models.Contact;
@@ -34,11 +35,11 @@ public class MainActivity extends AppCompatActivity implements IOnClick {
         Objects.requireNonNull(getSupportActionBar()).hide();
         DatabaseClient.getInstance(this);
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
-        openFragment(Fragments.CONTACT_VIEW);
+        openFragment(Fragments.HOME_PAGE_VIEW);
         bottomNav.setOnItemSelectedListener(item -> {
             int id = item.getItemId();
-            if (id == R.id.page_1) {
-                openFragment(Fragments.CONTACT_VIEW);
+            if (id == R.id.home_page) {
+                openFragment(Fragments.HOME_PAGE_VIEW);
                 return true;
             }
             if (id == R.id.contacts_page) {
@@ -55,6 +56,10 @@ public class MainActivity extends AppCompatActivity implements IOnClick {
         FragmentTransaction transaction = fm.beginTransaction();
         Fragment frag;
         switch (fragment) {
+            case HOME_PAGE_VIEW:
+                frag = new HomePageFragment();
+                ((HomePageFragment) frag).setiOnClick(this);
+                break;
             case ADD_CONTACT_VIEW:
                 frag = new AddContactFragment();
                 ((AddContactFragment) frag).setOnClick(this);
@@ -152,10 +157,18 @@ public class MainActivity extends AppCompatActivity implements IOnClick {
             @Override
             protected void onPostExecute(Void aVoid) {
                 super.onPostExecute(aVoid);
-                AppointmentViewFragment frag = (AppointmentViewFragment) getSupportFragmentManager().findFragmentByTag(Fragments.APPOINTMENT_VIEW.name());
-                if(frag == null)
-                    return;
-                frag.updateView(position);
+                {
+                    AppointmentViewFragment frag = (AppointmentViewFragment) getSupportFragmentManager().findFragmentByTag(Fragments.APPOINTMENT_VIEW.name());
+                    if (frag == null)
+                        return;
+                    frag.updateView(position);
+                }
+                {
+                    HomePageFragment frag = (HomePageFragment) getSupportFragmentManager().findFragmentByTag(Fragments.HOME_PAGE_VIEW.name());
+                    if (frag == null)
+                        return;
+                    frag.updateView(position);
+                }
             }
         }
         DeleteAppointment delete = new DeleteAppointment();
@@ -168,6 +181,7 @@ public class MainActivity extends AppCompatActivity implements IOnClick {
     }
 
     public enum Fragments {
+        HOME_PAGE_VIEW(HomePageFragment.class),
         ADD_CONTACT_VIEW(AddContactFragment.class),
         CONTACT_VIEW(ContactViewFragment.class),
         APPOINTMENT_VIEW(AppointmentViewFragment.class),

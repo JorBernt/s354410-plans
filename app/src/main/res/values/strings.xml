@@ -16,4 +16,7 @@
     <string name="timeFormatHint">HH:MM</string>
     <string name="newAppointment">New Appointment</string>
     <string name="add_attendees">Add attendees</string>
+    <string name="select_attendees">Select Attendee(s)</string>
+    <string name="nextAppointment">Next appointment</string>
+    <string name="no_appointments">No appointments</string>
 </resources>

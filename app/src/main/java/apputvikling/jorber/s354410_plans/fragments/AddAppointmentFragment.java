@@ -88,7 +88,7 @@ public class AddAppointmentFragment extends Fragment {
 
             @Override
             protected void onPostExecute(List<Contact> contacts) {
-                contacts.add(0, new Contact("Select Attendee(s)", null));
+                contacts.add(0, new Contact(getString(R.string.select_attendees), null));
                 if(getArguments() != null) {
                     List<Long> ids = Arrays.stream(getArguments().getString("attendees")
                             .split(":"))

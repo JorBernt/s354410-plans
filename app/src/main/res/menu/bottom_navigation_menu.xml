@@ -1,6 +1,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/page_1"
+        android:id="@+id/home_page"
         android:enabled="true"
         android:icon="@drawable/ic_launcher_background"
         android:title="@string/text_label_1"/>
