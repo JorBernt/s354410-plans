@@ -4,12 +4,8 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -32,6 +28,13 @@ public class Appointment {
         this.message = message;
         this.contacts = new Contacts(contacts);
         handleDate(date);
+    }
+
+    public Appointment(String date, String title, String message, List<Contact> contacts) {
+        this.title = title;
+        this.message = message;
+        this.contacts = new Contacts(contacts);
+        this.date = date;
     }
 
     public Appointment() {
@@ -117,7 +120,7 @@ public class Appointment {
         return String.format(Locale.ENGLISH, "%02d:%02d", date.getHour(), date.getMinute());
     }
 
-    public LocalDateTime getLocalDate() {
+    public LocalDateTime getLocalDateTime() {
         return LocalDateTime.parse(getDate(), getFormatter());
     }
 }

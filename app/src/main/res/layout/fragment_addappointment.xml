@@ -8,11 +8,10 @@
     tools:context=".activity.MainActivity">
 
     <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="600dp"
+        android:layout_width="0dp"
+        android:layout_height="594dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.496">
@@ -29,8 +28,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:paddingBottom="20sp"
                 android:paddingTop="20sp"
+                android:paddingBottom="20sp"
                 android:textColor="@color/white"
                 android:textSize="32sp" />
 
@@ -40,15 +39,15 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20sp"
                 android:background="@drawable/input_rounded_box"
-                android:drawableStart="@drawable/person_icon"
+                android:drawableStart="@drawable/title_icon"
                 android:drawablePadding="8dp"
                 android:ems="10"
-                android:textColorHint="@color/light_gray"
                 android:hint="@string/tittle"
                 android:inputType="textPersonName"
                 android:paddingHorizontal="20dp"
                 android:paddingVertical="14dp"
-                android:textColor="@color/white" />
+                android:textColor="@color/white"
+                android:textColorHint="@color/light_gray" />
 
             <EditText
                 android:id="@+id/appointment_descriptionInput"
@@ -56,7 +55,7 @@
                 android:layout_height="140dp"
                 android:layout_marginTop="20sp"
                 android:background="@drawable/input_rounded_box"
-                android:drawableStart="@drawable/person_icon"
+                android:drawableStart="@drawable/message_icon"
                 android:drawablePadding="8dp"
                 android:ems="10"
                 android:gravity="top"
@@ -74,16 +73,16 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20sp"
                 android:background="@drawable/input_rounded_box"
-                android:drawableStart="@drawable/person_icon"
+                android:drawableStart="@drawable/calendar_icon"
                 android:drawablePadding="8dp"
                 android:ems="10"
                 android:hint="@string/dateFormatHint"
                 android:inputType="date"
                 android:paddingHorizontal="20dp"
                 android:paddingVertical="14dp"
-                android:textColorHint="@color/light_gray"
+                android:textColor="@color/white"
 
-                android:textColor="@color/white" />
+                android:textColorHint="@color/light_gray" />
 
             <EditText
                 android:id="@+id/timeView"
@@ -91,15 +90,15 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20sp"
                 android:background="@drawable/input_rounded_box"
-                android:drawableStart="@drawable/person_icon"
+                android:drawableStart="@drawable/clock_icon"
                 android:drawablePadding="8dp"
                 android:ems="10"
                 android:hint="@string/timeFormatHint"
                 android:inputType="time"
                 android:paddingHorizontal="20dp"
                 android:paddingVertical="14dp"
-                android:textColorHint="@color/light_gray"
-                android:textColor="@color/white" />
+                android:textColor="@color/white"
+                android:textColorHint="@color/light_gray" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -122,16 +121,35 @@
                 android:id="@+id/attendee_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="0sp"
-                android:layout_weight="0.9"
-                />
+                android:layout_weight="0.9">
 
-            <Button
-                android:id="@+id/addBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="20dp"
-                android:text="@string/add" />
+            </androidx.recyclerview.widget.RecyclerView>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:id="@+id/appointmentViewButtonLayout"
+                    android:layout_width="231dp"
+                    android:layout_height="64dp"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.176">
+
+                    <Button
+                        android:id="@+id/addBtn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="@string/add" />
+                </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
         </LinearLayout>
     </ScrollView>
 

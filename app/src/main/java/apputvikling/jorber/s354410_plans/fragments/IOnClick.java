@@ -21,4 +21,6 @@ public interface IOnClick {
     void deleteAppointment(Appointment appointment, int position);
 
     void setDate(DialogFragment datePicker);
+
+    void sendNotificationBroadcast();
 }

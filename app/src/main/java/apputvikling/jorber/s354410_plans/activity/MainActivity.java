@@ -1,5 +1,9 @@
 package apputvikling.jorber.s354410_plans.activity;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.widget.Toast;
@@ -25,8 +29,13 @@ import apputvikling.jorber.s354410_plans.fragments.HomePageFragment;
 import apputvikling.jorber.s354410_plans.fragments.IOnClick;
 import apputvikling.jorber.s354410_plans.models.Appointment;
 import apputvikling.jorber.s354410_plans.models.Contact;
+import apputvikling.jorber.s354410_plans.services.BroadCastReciever;
 
 public class MainActivity extends AppCompatActivity implements IOnClick {
+
+    private final String CHANNEL_ID = "NotificationChannel";
+    private Fragments currentFragment;
+    private Fragments prevFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +58,7 @@ public class MainActivity extends AppCompatActivity implements IOnClick {
             openFragment(Fragments.APPOINTMENT_VIEW);
             return true;
         });
+        sendNotificationBroadcast();
     }
 
     public void openFragment(Fragments fragment, Bundle bundle) {
@@ -84,6 +94,8 @@ public class MainActivity extends AppCompatActivity implements IOnClick {
         transaction.replace(R.id.fragmentContainerView, frag, fragment.name());
         transaction.addToBackStack(null); //if you add fragments it will be added to the backStack. If you replace the fragment it will add only the last fragment
         transaction.commit(); // commit() performs the action
+        prevFragment = currentFragment;
+        currentFragment = fragment;
     }
 
     public void openFragment(Fragments fragment) {
@@ -130,6 +142,7 @@ public class MainActivity extends AppCompatActivity implements IOnClick {
     @Override
     public void goBack() {
         getSupportFragmentManager().popBackStack();
+        currentFragment = prevFragment;
     }
 
     @Override
@@ -157,13 +170,12 @@ public class MainActivity extends AppCompatActivity implements IOnClick {
             @Override
             protected void onPostExecute(Void aVoid) {
                 super.onPostExecute(aVoid);
-                {
+                if (currentFragment == Fragments.APPOINTMENT_VIEW) {
                     AppointmentViewFragment frag = (AppointmentViewFragment) getSupportFragmentManager().findFragmentByTag(Fragments.APPOINTMENT_VIEW.name());
                     if (frag == null)
                         return;
                     frag.updateView(position);
-                }
-                {
+                } else {
                     HomePageFragment frag = (HomePageFragment) getSupportFragmentManager().findFragmentByTag(Fragments.HOME_PAGE_VIEW.name());
                     if (frag == null)
                         return;
@@ -193,5 +205,24 @@ public class MainActivity extends AppCompatActivity implements IOnClick {
         }
     }
 
+    @Override
+    public void sendNotificationBroadcast() {
+        int importance = NotificationManager.IMPORTANCE_DEFAULT;
+        NotificationChannel channel = new NotificationChannel(CHANNEL_ID, "name", importance);
+        channel.setDescription("description");
+        NotificationManager notificationManager = getSystemService(NotificationManager.class);
+        notificationManager.createNotificationChannel(channel);
 
+        BroadCastReciever broadCastReciever = new BroadCastReciever();
+        IntentFilter filter = new IntentFilter("SIGNAL");
+        filter.addAction("SIGNAL");
+        registerReceiver(broadCastReciever, filter);
+        getSharedPreferences("PREFERENCE", MODE_PRIVATE)
+                .edit()
+                .putString("SMS_default", getString(R.string.sms_default_text))
+                .apply();
+        Intent intent = new Intent();
+        intent.setAction("SIGNAL");
+        sendBroadcast(intent);
+    }
 }

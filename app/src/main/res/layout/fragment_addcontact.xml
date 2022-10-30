@@ -49,8 +49,9 @@
             android:inputType="textPersonName"
             android:paddingHorizontal="20dp"
             android:paddingVertical="14dp"
-            android:hint="Name"
-            android:textColor="@color/light_gray" />
+            android:hint="@string/name"
+            android:textColor="@color/white"
+            android:textColorHint="@color/light_gray" />
 
         <EditText
             android:id="@+id/phoneInput"
@@ -64,8 +65,9 @@
             android:inputType="phone"
             android:paddingHorizontal="20dp"
             android:paddingVertical="14dp"
-            android:hint="Phone"
-            android:textColor="@color/light_gray" />
+            android:hint="@string/phone"
+            android:textColor="@color/white"
+            android:textColorHint="@color/light_gray" />
     </LinearLayout>
 
     <TextView

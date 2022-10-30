@@ -16,6 +16,7 @@ import java.util.List;
 import apputvikling.jorber.s354410_plans.R;
 import apputvikling.jorber.s354410_plans.fragments.IOnClick;
 import apputvikling.jorber.s354410_plans.models.Appointment;
+import apputvikling.jorber.s354410_plans.utility.MonthTranslator;
 
 public class AppointmentViewAdapter extends RecyclerView.Adapter<AppointmentViewAdapter.AppointmentViewHolder> {
 
@@ -39,10 +40,10 @@ public class AppointmentViewAdapter extends RecyclerView.Adapter<AppointmentView
         Appointment appointment = appointments.get(position);
         holder.title.setText(appointment.getTitle());
         holder.description.setText(appointment.getMessage());
-        holder.attendees.setText(String.format("Attendees:\n%s", appointment.getContacts().getNames()));
+        holder.attendees.setText(appointment.getContacts().getNames());
         holder.date.time.setText(appointment.getTime());
         holder.date.day.setText(appointment.getDay());
-        holder.date.month.setText(appointment.getMonth());
+        holder.date.month.setText(MonthTranslator.translateMonth(appointment.getMonth()));
         holder.date.year.setText(appointment.getYear());
         holder.appointmentSettingsBtn.setOnClickListener(view -> {
             PopupMenu settingsMenu = new PopupMenu(view.getContext(), view);

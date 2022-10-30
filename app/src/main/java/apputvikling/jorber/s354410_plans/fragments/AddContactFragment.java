@@ -49,8 +49,15 @@ public class AddContactFragment extends Fragment {
             Button deleteButton = new Button(layout.getContext());
             deleteButton.setText(R.string.delete);
             deleteButton.setBackground(getActivity().getDrawable(R.drawable.delete_button));
-            layout.addView(deleteButton, 0);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+            );
+            params.setMargins(0, 0, 10, 0);
+            params.height = 100;
+            deleteButton.setLayoutParams(params);
             deleteButton.setOnClickListener(v -> deleteContact(contact));
+            layout.addView(deleteButton, 0);
 
             contactTitleText.setText(sName);
         } else {
@@ -63,7 +70,7 @@ public class AddContactFragment extends Fragment {
         TextView name = view.findViewById(R.id.nameInput);
         TextView phone = view.findViewById(R.id.phoneInput);
         if (phone.getText().toString().isEmpty() || name.getText().toString().isEmpty()) {
-            Toast.makeText(getContext(), "No input", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), R.string.no_input, Toast.LENGTH_SHORT).show();
             return;
         }
         Contact contact = new Contact(name.getText().toString(), phone.getText().toString());

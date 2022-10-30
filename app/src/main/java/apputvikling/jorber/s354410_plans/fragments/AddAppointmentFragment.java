@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -16,6 +17,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -66,7 +68,6 @@ public class AddAppointmentFragment extends Fragment {
             iOnClick.setDate(datePicker);
         });
 
-
         RecyclerView rv = view.findViewById(R.id.attendee_recycler_view);
         LinearLayoutManager layout = new LinearLayoutManager(getContext()) {
             @Override
@@ -91,7 +92,8 @@ public class AddAppointmentFragment extends Fragment {
                 contacts.add(0, new Contact(getString(R.string.select_attendees), null));
                 if(getArguments() != null) {
                     List<Long> ids = Arrays.stream(getArguments().getString("attendees")
-                            .split(":"))
+                                    .split(":"))
+                            .filter(a -> a.length() > 0)
                             .mapToLong(Long::parseLong)
                             .boxed()
                             .collect(Collectors.toList());
@@ -161,12 +163,28 @@ public class AddAppointmentFragment extends Fragment {
         TextView description = view.findViewById(R.id.appointment_descriptionInput);
         if(getArguments() != null) {
             title.setText(getArguments().getString("title"));
-            titleInput.setText(getArguments().getString("title"));
-            description.setText(getArguments().getString("description"));
+            titleInput.setText(getArguments().getString("title").equals(getString(R.string.untitled_appointment)) ? "" : getArguments().getString("title"));
+            description.setText(getArguments().getString("description").equals(getString(R.string.no_message)) ? "" : getArguments().getString("description"));
             dateView.setText(getArguments().getString("date").split(" ")[0]);
             timeView.setText(getArguments().getString("time"));
             button.setText(R.string.save);
             button.setOnClickListener(v -> updateAppointment(view, getArguments().getLong("_ID")));
+
+            LinearLayout btnLayout = view.findViewById(R.id.appointmentViewButtonLayout);
+            Button deleteButton = new Button(btnLayout.getContext());
+            deleteButton.setText(R.string.delete);
+            deleteButton.setBackground(getActivity().getDrawable(R.drawable.delete_button));
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+            );
+            params.setMargins(0, 0, 10, 0);
+            params.height = 100;
+            deleteButton.setLayoutParams(params);
+            Appointment appointment = new Appointment(dateView.getText().toString(), title.getText().toString(), description.getText().toString(), null);
+            appointment.set_ID(getArguments().getLong("_ID"));
+            deleteButton.setOnClickListener(v -> deleteAppointment(appointment));
+            btnLayout.addView(deleteButton, 0);
         }
         else {
             button.setOnClickListener(v -> saveAppointment(view));
@@ -208,7 +226,12 @@ public class AddAppointmentFragment extends Fragment {
         String description = ((TextView) (view.findViewById(R.id.appointment_descriptionInput))).getText().toString();
         String date = ((TextView) (view.findViewById(R.id.dateView))).getText().toString();
         String time = ((TextView) (view.findViewById(R.id.timeView))).getText().toString();
-
+        if (date.isEmpty()) {
+            date = LocalDate.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+        }
+        if (time.isEmpty()) {
+            time = LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm"));
+        }
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm", Locale.ENGLISH);
         LocalDateTime dateFromString = LocalDateTime.parse(date + " " + time, formatter);
         return new Appointment(dateFromString, title, description, attendees);
@@ -228,7 +251,7 @@ public class AddAppointmentFragment extends Fragment {
             @Override
             protected void onPostExecute(Void aVoid) {
                 super.onPostExecute(aVoid);
-                Toast.makeText(getContext(), "Updated", Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), getString(R.string.updated), Toast.LENGTH_LONG).show();
                 iOnClick.goBack();
                 return;
             }
@@ -237,23 +260,23 @@ public class AddAppointmentFragment extends Fragment {
         update.execute();
     }
 
-    private void deleteContact(Contact contact) {
-        class DeleteContact extends AsyncTask<Void, Void, Void> {
+    private void deleteAppointment(Appointment appointment) {
+        class DeleteAppointment extends AsyncTask<Void, Void, Void> {
             @Override
             protected Void doInBackground(Void... voids) {
-                Repository.getInstance(getContext()).deleteContact(contact);
+                Repository.getInstance(getContext()).deleteAppointment(appointment);
                 return null;
             }
 
             @Override
             protected void onPostExecute(Void aVoid) {
                 super.onPostExecute(aVoid);
-                Toast.makeText(getContext(), "Deleted", Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), getString(R.string.deleted), Toast.LENGTH_LONG).show();
                 iOnClick.goBack();
                 return;
             }
         }
-        DeleteContact delete = new DeleteContact();
+        DeleteAppointment delete = new DeleteAppointment();
         delete.execute();
     }
 

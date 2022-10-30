@@ -5,6 +5,17 @@
     android:layout_height="match_parent"
     android:background="@color/black">
 
+    <ToggleButton
+        android:id="@+id/sendSmsToggleBtn"
+        android:layout_width="101dp"
+        android:layout_height="38dp"
+        android:layout_marginTop="76dp"
+        android:text="ToggleButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.948"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextClock
         android:id="@+id/clockView"
         android:layout_width="wrap_content"
@@ -17,6 +28,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.267" />
+
+    <TextView
+        android:id="@+id/homeDateView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:format24Hour="hh:mm:ss"
+        android:textColor="@color/white"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.358" />
 
     <TextView
         android:id="@+id/nextAppointment_textView"

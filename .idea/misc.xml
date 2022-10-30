@@ -4,6 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/bernt/AndroidStudioProjects/s354410plans/app/src/main/res/drawable-anydpi/add_contact_icon.xml" value="0.195" />
+        <entry key="..\:/Users/bernt/AndroidStudioProjects/s354410plans/app/src/main/res/drawable-anydpi/message_icon.xml" value="0.396" />
         <entry key="..\:/Users/bernt/AndroidStudioProjects/s354410plans/app/src/main/res/drawable-anydpi/person_icon.xml" value="0.195" />
         <entry key="..\:/Users/bernt/AndroidStudioProjects/s354410plans/app/src/main/res/drawable/call-48px.xml" value="0.1915" />
         <entry key="..\:/Users/bernt/AndroidStudioProjects/s354410plans/app/src/main/res/drawable/contact_icon.xml" value="0.4145" />
@@ -22,9 +23,10 @@
         <entry key="..\:/Users/bernt/AndroidStudioProjects/s354410plans/app/src/main/res/layout/activity_addcontact.xml" value="0.33" />
         <entry key="..\:/Users/bernt/AndroidStudioProjects/s354410plans/app/src/main/res/layout/activity_main.xml" value="0.33" />
         <entry key="..\:/Users/bernt/AndroidStudioProjects/s354410plans/app/src/main/res/layout/appointment_cardview.xml" value="0.5" />
+        <entry key="..\:/Users/bernt/AndroidStudioProjects/s354410plans/app/src/main/res/layout/attendees_cardview.xml" value="0.3109375" />
         <entry key="..\:/Users/bernt/AndroidStudioProjects/s354410plans/app/src/main/res/layout/contact_cardview.xml" value="0.33" />
-        <entry key="..\:/Users/bernt/AndroidStudioProjects/s354410plans/app/src/main/res/layout/fragment_addappointment.xml" value="0.43931159420289856" />
-        <entry key="..\:/Users/bernt/AndroidStudioProjects/s354410plans/app/src/main/res/layout/fragment_addcontact.xml" value="0.33" />
+        <entry key="..\:/Users/bernt/AndroidStudioProjects/s354410plans/app/src/main/res/layout/fragment_addappointment.xml" value="0.5" />
+        <entry key="..\:/Users/bernt/AndroidStudioProjects/s354410plans/app/src/main/res/layout/fragment_addcontact.xml" value="0.1" />
         <entry key="..\:/Users/bernt/AndroidStudioProjects/s354410plans/app/src/main/res/layout/fragment_viewappointments.xml" value="0.43931159420289856" />
         <entry key="..\:/Users/bernt/AndroidStudioProjects/s354410plans/app/src/main/res/layout/fragment_viewcontacts.xml" value="0.5" />
         <entry key="..\:/Users/bernt/AndroidStudioProjects/s354410plans/app/src/main/res/layout/home_page_view.xml" value="0.43931159420289856" />

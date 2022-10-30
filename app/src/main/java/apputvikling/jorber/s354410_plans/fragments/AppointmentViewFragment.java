@@ -13,8 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
 
@@ -59,7 +57,14 @@ public class AppointmentViewFragment extends Fragment {
             @Override
             protected void onPostExecute(List<Appointment> appointments) {
                 super.onPostExecute(appointments);
-                appointments.sort(Comparator.comparing(Appointment::getLocalDate));
+                appointments.sort(Comparator.comparing(Appointment::getLocalDateTime));
+                for (Appointment a : appointments) {
+                    a.getContacts().setContext(getContext());
+                    if (a.getTitle().isEmpty())
+                        a.setTitle(getResources().getString(R.string.untitled_appointment));
+                    if (a.getMessage().isEmpty())
+                        a.setMessage(getString(R.string.no_message));
+                }
                 adapter = new AppointmentViewAdapter(appointments, iOnClick);
                 rv.setAdapter(adapter);
             }
