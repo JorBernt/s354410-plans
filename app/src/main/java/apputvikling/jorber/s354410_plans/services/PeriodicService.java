@@ -9,7 +9,11 @@ import android.os.IBinder;
 
 import androidx.annotation.Nullable;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
+import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 public class PeriodicService extends Service {
     @Nullable
@@ -20,11 +24,10 @@ public class PeriodicService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Calendar cal = Calendar.getInstance();
         Intent i = new Intent(getApplicationContext(), SendService.class);
         PendingIntent pintent = PendingIntent.getService(getApplicationContext(), 0, i, 0);
         AlarmManager alarm = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        alarm.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pintent);
+        alarm.setInexactRepeating(AlarmManager.RTC_WAKEUP, getSharedPreferences("PREFERENCE", MODE_PRIVATE).getLong("NotificationTime", 0), AlarmManager.INTERVAL_DAY, pintent);
         return super.onStartCommand(intent, flags, startId);
     }
 }

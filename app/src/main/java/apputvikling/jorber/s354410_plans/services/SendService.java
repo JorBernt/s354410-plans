@@ -67,8 +67,8 @@ public class SendService extends Service {
 
     private void sendNotification(Appointment appointment, PendingIntent pIntent) {
         Notification notification = new NotificationCompat.Builder(this, "NotificationChannel")
-                .setContentTitle(appointment.getTitle())
-                .setContentText(appointment.getMessage())
+                .setContentTitle(appointment.getTitle().isEmpty() ? getString(R.string.untitled_appointment) : appointment.getTitle())
+                .setContentText(appointment.getMessage().isEmpty() ? getString(R.string.no_message) : appointment.getMessage())
                 .setSmallIcon(R.drawable.appointment_icon)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setContentIntent(pIntent).build();

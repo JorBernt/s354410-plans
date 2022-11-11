@@ -17,6 +17,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 import apputvikling.jorber.s354410_plans.R;
 import apputvikling.jorber.s354410_plans.Repository;
@@ -58,7 +59,9 @@ public class MainActivity extends AppCompatActivity implements IOnClick {
             openFragment(Fragments.APPOINTMENT_VIEW);
             return true;
         });
+        getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit().putLong("NotificationTime", TimeUnit.HOURS.toMillis(8));
         sendNotificationBroadcast();
+
     }
 
     public void openFragment(Fragments fragment, Bundle bundle) {
